@@ -72,9 +72,9 @@ const sessionOptions = {
   }
 };
 
-// app.get("/", (req, res) => {
-//   res.send("Hi, I am root");
-// });
+app.get("/", (req, res) => {
+  res.render("/show.ejs"); 
+});
 
 
 //MIDDLEWARES
@@ -108,6 +108,10 @@ app.use((req,res,next)=>{
 app.use("/listings",listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/",userRouter);
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
+});
 
 app.use((err,req,res,next)=>{
   let{statusCode=500,message="Something Went Wrong!"} = err;
